@@ -16,10 +16,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow-x: hidden;
+      /* Previene desbordamiento horizontal */
+      overflow-x: hidden; 
       position: relative;
     }
 
+    /* Animación de fondo (Flores/Corazones) */
     .flowers {
       position: fixed;
       top: 0; left: 0;
@@ -31,51 +33,63 @@
     .flower {
       position: absolute;
       animation: fall linear infinite;
+      filter: drop-shadow(0 2px 4px rgba(216, 27, 96, 0.2));
     }
 
     @keyframes fall {
       to { transform: translateY(105vh) rotate(720deg); }
     }
 
+    /* TARJETA PRINCIPAL: Centrado perfecto y adaptable */
     .card {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 30px;
-      width: 90%;
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 25px;
+      /* Usamos padding-bottom para mantener proporción en PC, 
+         pero lo sobreescribimos en Media Queries */
+      width: 95%;
       max-width: 1100px;
-      margin: 20px auto;
+      margin: 20px auto; 
       z-index: 2;
       position: relative;
-      box-shadow: 0 25px 60px rgba(216, 27, 96, 0.3);
-      border: 2px solid #ff4d6d;
-      overflow-y: auto; /* Permite scroll si el contenido es largo en el cel */
+      box-shadow: 0 20px 50px rgba(216, 27, 96, 0.25);
+      border: 3px solid #ff4d6d;
+      box-sizing: border-box; /* Asegura padding interno correcto */
     }
 
+    /* Contenedor Flex para la disposición horizontal/vertical */
     .main-content {
       display: flex;
-      flex-direction: row; /* Horizontal en PC */
-      min-height: 80vh;
+      flex-direction: row; /* Horizontal por defecto (PC) */
+      width: 100%;
+      height: 100%;
+      min-height: 70vh; /* Altura mínima adaptable */
     }
 
+    /* Paneles de FOTOS (Laterales) */
     .side-panel {
-      width: 35%;
-      padding: 15px;
+      flex: 1; /* Ocupan espacio equitativo (aprox 35% cada uno) */
+      padding: 1.5%; /* Padding relativo */
       display: flex;
       align-items: center;
       justify-content: center;
+      box-sizing: border-box;
     }
 
+    /* Contenedor con efecto de LUZ roja */
     .photo-container {
       position: relative;
       width: 100%;
-      height: 90%;
+      height: 90%; /* Proporción interna adaptable */
       background: #fff;
-      border-radius: 20px;
+      border-radius: 18px;
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     }
 
+    /* Efecto Luz Roja Neón Viajera */
     .photo-container::before {
       content: "";
       position: absolute;
@@ -86,12 +100,13 @@
       z-index: 1;
     }
 
+    /* Tapa interna blanca para el efecto de borde */
     .photo-container::after {
       content: "";
       position: absolute;
-      inset: 5px;
+      inset: 6px; /* Grosor del borde neón */
       background: white;
-      border-radius: 16px;
+      border-radius: 14px;
       z-index: 2;
     }
 
@@ -99,70 +114,112 @@
       100% { transform: rotate(360deg); }
     }
 
+    /* Imagen adaptable */
     .photo {
       width: calc(100% - 12px);
       height: calc(100% - 12px);
-      object-fit: cover;
-      border-radius: 12px;
+      object-fit: cover; /* Recorte inteligente */
+      border-radius: 10px;
       z-index: 3;
-      transition: transform 0.5s ease;
+      transition: all 0.5s ease;
     }
 
+    /* Efecto Over estilo Instagram */
+    .photo-container:hover .photo {
+      transform: scale(1.03);
+      filter: contrast(1.05) brightness(1.02);
+    }
+
+    /* Panel de TEXTO (Centro) */
     .center {
-      width: 30%;
-      padding: 20px;
+      flex: 0.8; /* Ligeramente más estrecho que las fotos (aprox 30%) */
+      padding: 2%;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
+      background: #fff5f7;
       z-index: 3;
+      border-left: 1px solid #ffccd5;
+      border-right: 1px solid #ffccd5;
+      box-sizing: border-box;
     }
 
     .title {
       font-family: 'Great Vibes', cursive;
-      font-size: 38px;
+      /* Usamos clamp para tamaño de fuente adaptable sin Queries */
+      font-size: clamp(32px, 4vw, 46px); 
       color: #c9184a;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
+      margin-top: 0;
     }
 
     .poem {
       font-family: 'Playfair Display', serif;
-      font-size: 16px;
-      line-height: 1.6;
+      font-size: clamp(15px, 1.8vw, 19px); /* Adaptable */
+      line-height: 1.7;
       color: #590d22;
+      font-weight: 500;
+      margin-top: 0;
     }
 
-    /* AJUSTES PARA TELÉFONO */
+    /* ===================================================
+    MEDIA QUERIES: AJUSTES DE DISEÑO "PERFECTO"
+    ===================================================
+    */
+
+    /* Ajuste para Tablets o pantallas medianas */
+    @media (max-width: 900px) {
+      .main-content {
+        min-height: 60vh;
+      }
+    }
+
+    /* Ajuste crítico para Celulares (Vertical) */
     @media (max-width: 768px) {
       .main-content {
-        flex-direction: column; /* Todo hacia abajo */
-        padding: 20px 0;
+        flex-direction: column; /* Diseño en columna hacia abajo */
+        padding: 10px 0;
       }
 
-      .side-panel, .center {
-        width: 100%; /* Ocupan todo el ancho */
-        padding: 10px;
+      .side-panel {
+        width: 100%; /* Ancho completo */
+        height: auto; /* Altura adaptable */
+        padding: 5%; /* Padding más grande para separar */
       }
 
       .photo-container {
-        height: 400px; /* Altura fija para que no se estiren */
-        width: 85%;
+        /* Mantiene proporción en móvil (ej. cuadrado o vertical controlado) */
+        height: 380px; 
+        max-width: 350px; /* Evita que la foto sea gigante */
+        margin: 0 auto; /* Centrado horizontal */
+      }
+
+      .center {
+        width: 100%; /* Ancho completo */
+        padding: 10% 5%; /* Mucho espacio para el texto */
+        border: none; /* Quitamos bordes laterales */
+        border-top: 1px solid #ffccd5;
+        border-bottom: 1px solid #ffccd5;
       }
 
       .title {
-        font-size: 32px;
-      }
-
-      .poem {
-        font-size: 15px;
-        padding: 0 10px;
+        margin-bottom: 15px;
       }
 
       .card {
-        height: auto; /* Que la tarjeta crezca según el contenido */
-        overflow-y: visible;
+        height: auto; /* Tarjeta crece con contenido */
+        overflow-y: visible; /* Scroll natural del móvil */
       }
     }
+
+    /* Ajuste extra para móviles muy pequeños */
+    @media (max-width: 480px) {
+      .photo-container {
+        height: 320px;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -174,7 +231,7 @@
       
       <div class="side-panel">
         <div class="photo-container">
-          <img id="imgLeft" src="" class="photo">
+          <img id="imgLeft" src="" class="photo" alt="Recuerdo">
         </div>
       </div>
 
@@ -195,7 +252,7 @@
 
       <div class="side-panel">
         <div class="photo-container">
-          <img id="imgRight" src="" class="photo">
+          <img id="imgRight" src="" class="photo" alt="Recuerdo">
         </div>
       </div>
 
@@ -203,48 +260,74 @@
   </div>
 
   <script>
+    // Generador automático para las 26 fotos en formato: foto1 (x).jpg
     const totalFotos = 26;
     const misFotos = [];
     for (let i = 1; i <= totalFotos; i++) {
       misFotos.push(`foto1 (${i}).jpg`); 
     }
 
+    // Índices de inicio (fotos distintas en L y R)
     let idxL = 0;
     let idxR = 13;
 
     const imgL = document.getElementById('imgLeft');
     const imgR = document.getElementById('imgRight');
 
+    // Función de rotación suave
     function rotar() {
-      imgL.style.opacity = '0.5';
-      imgR.style.opacity = '0.5';
+      // Efecto suave de transición de opacidad
+      imgL.style.opacity = '0.4';
+      imgR.style.opacity = '0.4';
 
       setTimeout(() => {
+        // Actualizar índices circularmente
         idxL = (idxL + 1) % totalFotos;
         idxR = (idxR + 1) % totalFotos;
+        
+        // Asignar nuevas imágenes
         imgL.src = misFotos[idxL];
         imgR.src = misFotos[idxR];
+        
+        // Mostrar imágenes de nuevo
         imgL.style.opacity = '1';
         imgR.style.opacity = '1';
       }, 500);
     }
 
+    // Manejo elemental de errores de carga (oculta la imagen si no existe)
+    function handleImageError(element) {
+        element.style.display = 'none';
+        element.parentNode.style.display = 'none';
+        console.warn(`No se pudo cargar la imagen: ${element.src}`);
+    }
+    imgL.onerror = function() { handleImageError(this); };
+    imgR.onerror = function() { handleImageError(this); };
+
+    // Carga inicial
     imgL.src = misFotos[idxL];
     imgR.src = misFotos[idxR];
+    
+    // Iniciar rotación cada 5 segundos
     setInterval(rotar, 5000);
 
+    // Sistema de lluvia de corazones/flores cayendo
     const emojis = ['🌸', '🌺', '💖', '🌷', '❤️', '🌹'];
     function drop() {
       const f = document.createElement('div');
       f.className = 'flower';
       f.textContent = emojis[Math.floor(Math.random() * emojis.length)];
       f.style.left = Math.random() * 100 + 'vw';
-      f.style.top = '-50px';
+      f.style.top = '-50px'; // Empieza fuera de pantalla
       f.style.fontSize = (20 + Math.random() * 25) + 'px';
+      // Duración de caída aleatoria para dinamismo
       f.style.animationDuration = (5 + Math.random() * 7) + 's';
+      
       document.getElementById('flowers').appendChild(f);
+      // Remoción automática para no saturar memoria
       setTimeout(() => f.remove(), 8000);
     }
+    // Iniciar lluvia
     setInterval(drop, 350);
   </script>
 </body>
