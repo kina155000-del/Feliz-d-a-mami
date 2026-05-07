@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Para mi Mami ❤️</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      /* Fondo con colores más intensos en rosa y rojo */
+      background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%);
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Lluvia de corazones y flores */
+    .flowers {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .flower {
+      position: absolute;
+      animation: fall linear infinite;
+      filter: drop-shadow(0 2px 4px rgba(216, 27, 96, 0.2));
+    }
+
+    @keyframes fall {
+      to { transform: translateY(105vh) rotate(720deg); }
+    }
+
+    /* Tarjeta principal más ancha */
+    .card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 30px;
+      overflow: hidden;
+      width: 96%;
+      max-width: 1300px;
+      height: 85vh;
+      z-index: 2;
+      position: relative;
+      box-shadow: 0 25px 60px rgba(216, 27, 96, 0.3);
+      border: 2px solid #ff4d6d;
+    }
+
+    .main-content {
+      display: flex;
+      height: 100%;
+    }
+
+    /* Paneles laterales AUMENTADOS para que las fotos luzcan más */
+    .side-panel {
+      width: 38%; /* Más espacio para las imágenes */
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* EFECTO DE LUZ ROJA INTENSA QUE CORRE */
+    .photo-container {
+      position: relative;
+      width: 100%;
+      height: 98%;
+      background: #fff;
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    /* La luz roja viajera */
+    .photo-container::before {
+      content: "";
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      /* Degradado de luz roja neón */
+      background: conic-gradient(transparent, transparent, transparent, #ff0000, #ff4d6d);
+      animation: rotate-light 3s linear infinite;
+      z-index: 1;
+    }
+
+    /* Marco interno */
+    .photo-container::after {
+      content: "";
+      position: absolute;
+      inset: 6px;
+      background: white;
+      border-radius: 16px;
+      z-index: 2;
+    }
+
+    @keyframes rotate-light {
+      100% { transform: rotate(360deg); }
+    }
+
+    .photo {
+      width: calc(100% - 12px);
+      height: calc(100% - 12px);
+      object-fit: cover;
+      border-radius: 12px;
+      z-index: 3;
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Efecto Over estilo Instagram */
+    .photo-container:hover .photo {
+      transform: scale(1.04);
+      filter: contrast(1.1) brightness(1.05);
+    }
+
+    /* Centro del poema más compacto para dar espacio a fotos */
+    .center {
+      width: 24%;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: #fff5f7;
+      z-index: 3;
+      border-left: 1px solid #ffccd5;
+      border-right: 1px solid #ffccd5;
+    }
+
+    .title {
+      font-family: 'Great Vibes', cursive;
+      font-size: 46px;
+      color: #c9184a;
+      margin-bottom: 25px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+
+    .poem {
+      font-family: 'Playfair Display', serif;
+      font-size: 19px;
+      line-height: 1.8;
+      color: #590d22;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="flowers" id="flowers"></div>
+
+  <div class="card">
+    <div class="main-content">
+      
+      <div class="side-panel">
+        <div class="photo-container">
+          <img id="imgLeft" src="" class="photo">
+        </div>
+      </div>
+
+      <div class="center">
+        <div>
+          <h2 class="title">Feliz Día de la Madre</h2>
+          <p class="poem">
+            Mami,<br><br>
+            Gracias por todo el esfuerzo y el amor que me ha dado.<br>
+            Por las noches sin dormir, por los sacrificios,<br>
+            y por estar siempre ahí cuando le necesito.<br><br>
+            Gracias por sus consejos, su paciencia<br>
+            y por creer en mí incluso cuando yo no lo hacía.<br><br>
+            Hoy quiero decirle que le quiero mucho.
+          </p>
+        </div>
+      </div>
+
+      <div class="side-panel">
+        <div class="photo-container">
+          <img id="imgRight" src="" class="photo">
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const totalFotos = 26;
+    const misFotos = [];
+    for (let i = 1; i <= totalFotos; i++) {
+      misFotos.push(`foto1 (${i}).jpg`); 
+    }
+
+    let idxL = 0;
+    let idxR = 13;
+
+    const imgL = document.getElementById('imgLeft');
+    const imgR = document.getElementById('imgRight');
+
+    function rotar() {
+      imgL.style.opacity = '0.5';
+      imgR.style.opacity = '0.5';
+
+      setTimeout(() => {
+        idxL = (idxL + 1) % totalFotos;
+        idxR = (idxR + 1) % totalFotos;
+        imgL.src = misFotos[idxL];
+        imgR.src = misFotos[idxR];
+        imgL.style.opacity = '1';
+        imgR.style.opacity = '1';
+      }, 500);
+    }
+
+    // Inicio
+    imgL.src = misFotos[idxL];
+    imgR.src = misFotos[idxR];
+    setInterval(rotar, 5000);
+
+    // Lluvia de corazones y flores
+    const emojis = ['🌸', '🌺', '💖', '🌷', '❤️', '🌹'];
+    function drop() {
+      const f = document.createElement('div');
+      f.className = 'flower';
+      f.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      f.style.left = Math.random() * 100 + 'vw';
+      f.style.top = '-50px';
+      f.style.fontSize = (20 + Math.random() * 25) + 'px';
+      f.style.animationDuration = (5 + Math.random() * 7) + 's';
+      document.getElementById('flowers').appendChild(f);
+      setTimeout(() => f.remove(), 8000);
+    }
+    setInterval(drop, 350);
+  </script>
+</body>
+</html>
